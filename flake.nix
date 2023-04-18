@@ -22,11 +22,12 @@
       systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
       imports = [
         inputs.nixos-flake.flakeModule
+        ./users
       ];
 
-      perSystem = {self', pkgs, ... }:
+     perSystem = { self', pkgs, config, inputs', ... }: 
         {
-          legacyPackages.homeConfigurations."${self.people.users.bjk}@ghanima" =
+          legacyPackages.homeConfigurations."${self.people.users.bjk}@beast" =
             self.nixos-flake.lib.mkHomeConfiguration
               pkgs
               ({ pkgs, ... }: {
@@ -34,6 +35,7 @@
                   self.homeModules.high 
                   ./home/users/${self.people.users.bjk}/git.nix
                   ./home/users/fleek
+                  ./home/hosts/beast.nix
  
                 ];
                 home.username = "${self.people.users.bjk}";
@@ -45,7 +47,7 @@
 
           # Enable 'nix build' to build the home configuration, but without
           # activating.
-          packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@ghanima".activationPackage;
+          packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@beast".activationPackage;
         };
 
       flake = {

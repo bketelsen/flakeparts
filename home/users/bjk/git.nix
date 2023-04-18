@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, flake, ... }:
 {
    programs.git = {
     enable = true;
@@ -8,8 +8,8 @@
       graph = "log --decorate --oneline --graph";
       add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
     };
-    userName = "Brian Ketelsen";
-    userEmail = "bketelsen@gmail.com";
+    userName = flake.config.people.users.${config.home.username}.name;
+    userEmail = flake.config.people.users.${config.home.username}.email;
     extraConfig = {
       feature.manyFiles = true;
       init.defaultBranch = "main";
