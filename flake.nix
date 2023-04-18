@@ -7,6 +7,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-flake.url = "github:bketelsen/nixos-flake";
+    fleek.url = "github:ublue-os/fleek";
   };
 
   outputs = inputs@{ self, ... }:
@@ -43,6 +44,7 @@
           apps.default.program = self'.packages.activate-home;
           # Enable 'nix build' to build the home configuration, but without
           # activating.
+          
           packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@beast".activationPackage;
         };
 

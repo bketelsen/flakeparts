@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
+{ inputs, lib, pkgs, config, outputs, flake, ... }:
 
 {
   imports = [
@@ -20,6 +20,10 @@
   };
 
   systemd.user.startServices = "sd-switch";
+
+  home.packages = with pkgs; [
+    flake.inputs.fleek.packages.${pkgs.system}.default
+  ];
 
   programs = {
     home-manager.enable = true;
