@@ -44,6 +44,7 @@
           apps.default.program = self'.packages.activate-home;
           # Enable 'nix build' to build the home configuration, but without
           # activating.
+          apps.fleek.program = "${self.inputs.fleek.packages.${pkgs.system}.default}/bin/fleek";
           
           packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@beast".activationPackage;
         };
