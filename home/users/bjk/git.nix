@@ -16,7 +16,7 @@
       gpg.format = "ssh";
     };
     signing = {
-      key = "~/.ssh/id_rsa";
+      key = flake.config.people.users.${config.home.username}.sshPrivateKey;
       signByDefault = true;
     };
     lfs.enable = true;

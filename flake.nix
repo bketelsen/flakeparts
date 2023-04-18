@@ -36,6 +36,7 @@
                   ./home/users/${self.people.users.bjk}/git.nix
                   ./home/users/fleek
                   ./home/hosts/beast.nix
+                  ./home/users/${self.people.users.bjk}/custom.nix
  
                 ];
                 home.username = "${self.people.users.bjk}";
