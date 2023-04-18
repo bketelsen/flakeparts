@@ -1,6 +1,9 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 
 {
+  imports = [
+    ./git.nix
+  ];
   nixpkgs = {
     config = {
       allowUnfree = true;
