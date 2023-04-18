@@ -54,11 +54,9 @@
           ./users/default.nix
         ];
         # All home-manager configurations are kept here.
-        homeModules.none = import ./home/bling/none;
-        homeModules.low = import ./home/bling/low;
-        homeModules.default = import ./home/bling/default;
-        homeModules.high = import ./home/bling/high;
-       
+
+        homeModules = inputs.nixpkgs.lib.genAttrs [ "high" "low" "none" "default" ] (x: ./home/bling/${x});
+
       };
     };
 }
