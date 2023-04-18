@@ -11,27 +11,28 @@
   };
 
   outputs = inputs@{ self, ... }:
-      let
+    let
       inherit (self) outputs;
     in
-    inputs.flake-parts.lib.mkFlake { inherit  inputs; } {
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
 
       imports = [
         inputs.nixos-flake.flakeModule
         ./users
       ];
-               
 
-    debug = true;
-     perSystem = { self', pkgs, lib, config, inputs', ... }: 
+
+      debug = true;
+
+      perSystem = { self', pkgs, lib, config, inputs', ... }:
         {
           legacyPackages.homeConfigurations."${self.people.users.bjk}@beast" =
             self.nixos-flake.lib.mkHomeConfiguration
               pkgs
               ({ pkgs, ... }: {
-                imports = [ 
-                  self.homeModules.high 
+                imports = [
+                  self.homeModules.high
                   ./home/users/fleek
                   ./home/hosts/beast.nix
                   ./home/users/${self.people.users.bjk}/custom.nix
@@ -45,22 +46,22 @@
           # Enable 'nix build' to build the home configuration, but without
           # activating.
           apps.fleek.program = "${self.inputs.fleek.packages.${pkgs.system}.default}/bin/fleek";
-          
+
           packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@beast".activationPackage;
-        };
-
-      flake = {
-        imports = [
-          ./users/default.nix
-        ];
-        # All home-manager configurations are kept here.
-      templates.default = {
-        description = "A `home-manager` template providing useful tools & settings for Nix-based development";
-        path = builtins.path { path = inputs.nixpkgs.lib.cleanSource ./.; filter = path: _: baseNameOf path != "build.sh"; };
-      };
-      
-        homeModules = inputs.nixpkgs.lib.genAttrs [ "high" "low" "none" "default" ] (x: ./home/bling/${x});
-
-      };
     };
+
+  flake = {
+    imports = [
+      ./users/default.nix
+    ];
+    # All home-manager configurations are kept here.
+    templates.default = {
+      description = "A `home-manager` template providing useful tools & settings for Nix-based development";
+      path = builtins.path { path = inputs.nixpkgs.lib.cleanSource ./.; filter = path: _: baseNameOf path != "build.sh"; };
+    };
+
+    homeModules = inputs.nixpkgs.lib.genAttrs [ "high" "low" "none" "default" ] (x: ./home/bling/${x});
+
+  };
+};
 }
