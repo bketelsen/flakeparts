@@ -54,7 +54,11 @@
           ./users/default.nix
         ];
         # All home-manager configurations are kept here.
-
+      templates.default = {
+        description = "A `home-manager` template providing useful tools & settings for Nix-based development";
+        path = builtins.path { path = inputs.nixpkgs.lib.cleanSource ./.; filter = path: _: baseNameOf path != "build.sh"; };
+      };
+      
         homeModules = inputs.nixpkgs.lib.genAttrs [ "high" "low" "none" "default" ] (x: ./home/bling/${x});
 
       };
