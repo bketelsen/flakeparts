@@ -21,10 +21,6 @@
         inputs.nixos-flake.flakeModule
         ./users
       ];
-
-
-      debug = true;
-
       perSystem = { self', pkgs, lib, config, inputs', ... }:
         {
           legacyPackages.homeConfigurations."${self.people.users.bjk}@beast" =
@@ -46,7 +42,6 @@
           # Enable 'nix build' to build the home configuration, but without
           # activating.
           apps.fleek.program = "${self.inputs.fleek.packages.${pkgs.system}.default}/bin/fleek";
-
           packages.default = self'.legacyPackages.homeConfigurations."${self.people.users.bjk}@beast".activationPackage;
     };
 
@@ -59,9 +54,7 @@
       description = "A `home-manager` template providing useful tools & settings for Nix-based development";
       path = builtins.path { path = inputs.nixpkgs.lib.cleanSource ./.; filter = path: _: baseNameOf path != "build.sh"; };
     };
-
     homeModules = inputs.nixpkgs.lib.genAttrs [ "high" "low" "none" "default" ] (x: ./home/bling/${x});
-
   };
 };
 }
